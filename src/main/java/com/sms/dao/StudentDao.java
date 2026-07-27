@@ -1,5 +1,7 @@
 package com.sms.dao;
 
-public interface StudentDao {
+import com.sms.model.Student;
 
+public interface StudentDao {
+	boolean addStudent(Student student);
 }

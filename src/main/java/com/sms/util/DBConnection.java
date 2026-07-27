@@ -1,6 +1,7 @@
 package com.sms.util;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 public class DBConnection {
 	
@@ -10,6 +11,8 @@ public class DBConnection {
 	
 	private DBConnection() {
 		//Prevent Object Creation;
+		Connection con = DBConnection.getConnection();
+		PreparedStatement ps = con.prepareStatement(sql);
 	};
 	public static Connection getConnection() {
 		try {
