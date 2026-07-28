@@ -1,5 +1,15 @@
 package com.sms.service;
 
-public interface StudentService {
+import java.util.List;
 
+import com.sms.model.Student;
+
+public interface StudentService {
+	boolean addStudent(Student student);
+
+	List<Student> getAllStudents();
+	
+	Student getStudentById(int id);
+	
+	
 }

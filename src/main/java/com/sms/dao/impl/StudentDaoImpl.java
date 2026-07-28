@@ -3,7 +3,9 @@ package com.sms.dao.impl;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-
+import java.util.ArrayList;
+import java.util.List;
+import java.sql.ResultSet;
 import com.sms.dao.StudentDao;
 import com.sms.model.Student;
 import com.sms.util.DBConnection;
@@ -35,6 +37,75 @@ public class StudentDaoImpl implements StudentDao {
 	        e.printStackTrace();
 	        return false;
 	    }
+	    
+	
+	}
+
+	@Override
+	public List<Student> getAllStudents() {
+		 List<Student> students=new ArrayList<>();
+		   String sql="SELECT * from student";
+		   try(
+			   Connection con=DBConnection.getConnection();
+			   PreparedStatement ps=con.prepareStatement(sql);
+			   ResultSet rs=ps.executeQuery()){
+			   while(rs.next()) {
+				   Student student=new Student();
+				   
+				   student.setId(rs.getInt("id"));
+				   student.setName(rs.getString("name"));
+				   student.setAge(rs.getInt("age"));
+				   student.setEmail(rs.getString("email"));
+				   student.setCity(rs.getString("city"));
+				   
+				   
+				   students.add(student);
+		   };
+		   }catch(SQLException e) {
+			   System.out.println(e);
+			   
+		   }
+		   
+		   return students;
+	}
+	
+	
+	@Override
+	public Student getStudentById(int id) {
+
+	    String sql = "SELECT * FROM student WHERE id = ?";
+
+	    try (
+	        Connection con = DBConnection.getConnection();
+	        PreparedStatement ps = con.prepareStatement(sql);
+	    ) {
+
+	        // Set the value of '?'
+	        ps.setInt(1, id);
+
+	        // Execute the query
+	        ResultSet rs = ps.executeQuery();
+
+	        // Check if a record exists
+	        if (rs.next()) {
+
+	            Student student = new Student();
+
+	            student.setId(rs.getInt("id"));
+	            student.setName(rs.getString("name"));
+	            student.setAge(rs.getInt("age"));
+	            student.setEmail(rs.getString("email"));
+	            student.setCity(rs.getString("city"));
+
+	            return student;
+	        }
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+
+	    // Return null if no student is found
+	    return null;
 	}
 
 }
