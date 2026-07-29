@@ -25,4 +25,15 @@ public class StudentServiceImpl implements StudentService {
     public Student getStudentById(int id) {
     	return studentDao.getStudentById(id);
     }
+
+	
+	@Override
+	public boolean updateStudent(Student student) {
+	    return studentDao.updateStudent(student);
+	}
+	
+	@Override
+	public boolean deleteStudent(int id) {
+	    return studentDao.deleteStudent(id);
+	}
 }

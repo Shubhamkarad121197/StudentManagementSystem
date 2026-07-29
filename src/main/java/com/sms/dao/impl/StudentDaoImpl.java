@@ -107,5 +107,54 @@ public class StudentDaoImpl implements StudentDao {
 	    // Return null if no student is found
 	    return null;
 	}
+	
+
+	@Override
+	public boolean updateStudent(Student student) {
+
+	    String sql = "UPDATE student SET name=?, age=?, email=?, city=? WHERE id=?";
+
+	    try (
+	        Connection con = DBConnection.getConnection();
+	        PreparedStatement ps = con.prepareStatement(sql);
+	    ) {
+
+	        ps.setString(1, student.getName());
+	        ps.setInt(2, student.getAge());
+	        ps.setString(3, student.getEmail());
+	        ps.setString(4, student.getCity());
+	        ps.setInt(5, student.getId());
+
+	        int rows = ps.executeUpdate();
+
+	        return rows > 0;
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+
+	    return false;
+	}
+	
+	@Override
+	public boolean deleteStudent(int id) {
+		String sql="DELETE FROM student WHERE ID=?";
+		try(
+				Connection con=DBConnection.getConnection();
+				PreparedStatement ps=con.prepareStatement(sql);
+				){
+			ps.setInt(1,id);
+			int rows=ps.executeUpdate();
+			return rows>0;
+			
+		}
+		catch(SQLException e) {
+			System.out.println(e);
+		}
+		return false;
+		
+	}
+
+
 
 }

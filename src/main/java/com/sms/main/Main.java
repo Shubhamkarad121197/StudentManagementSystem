@@ -1,115 +1,190 @@
 package com.sms.main;
+
 import java.util.List;
 import java.util.Scanner;
 
 import com.sms.model.Student;
+import com.sms.service.StudentService;
 import com.sms.service.impl.StudentServiceImpl;
 
+public class Main {
 
+    public static void main(String[] args) {
 
-import com.sms.service.StudentService;
+        Scanner sc = new Scanner(System.in);
+        StudentService service = new StudentServiceImpl();
 
+        while (true) {
 
-public interface Main {
-	public static void main(String args[]) {
-		Scanner sc=new Scanner(System.in);
-		
-		while(true) {
-			  System.out.println("\n======================================");
-	            System.out.println("     STUDENT MANAGEMENT SYSTEM");
-	            System.out.println("======================================");
-	            System.out.println("1. Add Student");
-	            System.out.println("2. View Students");
-	            System.out.println("3. Search Student");
-	            System.out.println("4. Update Student");
-	            System.out.println("5. Delete Student");
-	            System.out.println("6. Exit");
-	            System.out.print("Enter your choice: ");
-	            
-	            int choice=sc.nextInt();
-	            
-	            switch(choice) {
-	            	
-	            case 1:
-	            	System.out.println("Enter id");
-	            	int id=sc.nextInt();
-	            	sc.nextLine();
-	            	
-	            	System.out.print("Enter Name: ");
-	            	String name=sc.nextLine();
-	            	
-	            	System.out.println("Enter your age:");
-	            	int age=sc.nextInt();
-	            	sc.nextLine();
-	            	
-	            	 System.out.print("Enter Email: ");
-	            	    String email = sc.nextLine();
-	            	    
-	            	 System.out.println("Enter City:");
-	            	 String city=sc.nextLine();
-	            	 
-	            	 Student student=new Student(id,name,age,email,city);
-	            	 
-	            	 StudentService studentService=new StudentServiceImpl();
-	            	 
-	            	 boolean status=studentService.addStudent(student);
-	            	 
-	            	  if (status) {
-	            	        System.out.println("✅ Student Added Successfully");
-	            	    } else {
-	            	        System.out.println("❌ Failed to Add Student");
-	            	    }
+            System.out.println("\n======================================");
+            System.out.println("     STUDENT MANAGEMENT SYSTEM");
+            System.out.println("======================================");
+            System.out.println("1. Add Student");
+            System.out.println("2. View Students");
+            System.out.println("3. Search Student");
+            System.out.println("4. Update Student");
+            System.out.println("5. Delete Student");
+            System.out.println("6. Exit");
+            System.out.print("Enter your choice: ");
 
-	            	break;
-	            	
-	            case 2:
-	            	 StudentService service=new StudentServiceImpl();
-	            	List<Student> students = service.getAllStudents();
+            int choice = sc.nextInt();
+            sc.nextLine();
 
-	                if (students.isEmpty()) {
-	                    System.out.println("No Students Found");
-	                } else {
+            switch (choice) {
 
-	                    System.out.println("\n===== Student List =====");
+            case 1:
 
-	                    for (Student student1 : students) {
-	                        System.out.println(student1);
-	                    }
-	                }
+                System.out.print("Enter ID: ");
+                int id = sc.nextInt();
+                sc.nextLine();
 
-	            	break;
-	            case 3:
+                System.out.print("Enter Name: ");
+                String name = sc.nextLine();
 
-	                System.out.print("Enter Student ID: ");
-	                int searchId = sc.nextInt();
-	                StudentService service1=new StudentServiceImpl();
+                System.out.print("Enter Age: ");
+                int age = sc.nextInt();
+                sc.nextLine();
 
-	                Student student1 = service1.getStudentById(searchId);
+                System.out.print("Enter Email: ");
+                String email = sc.nextLine();
 
-	                if (student1 != null) {
-	                    System.out.println("\n===== Student Details =====");
-	                    System.out.println(student1);
-	                } else {
-	                    System.out.println("Student not found.");
-	                }
+                System.out.print("Enter City: ");
+                String city = sc.nextLine();
 
-	                break;
-	            case 4:
-                    System.out.println("Update Student Selected");
-                    break;
+                Student student = new Student(id, name, age, email, city);
 
-                case 5:
-                    System.out.println("Delete Student Selected");
-                    break;
+                if (service.addStudent(student)) {
+                    System.out.println("Student Added Successfully.");
+                } else {
+                    System.out.println("Failed to Add Student.");
+                }
 
-                case 6:
-                    System.out.println("Thank You!");
-                    sc.close();
-                    System.exit(0);
-                    
-                default:
-                    System.out.println("Invalid Choice!");
-	            }
-		}
-	}
+                break;
+
+            case 2:
+
+                List<Student> students = service.getAllStudents();
+
+                if (students.isEmpty()) {
+                    System.out.println("No Students Found.");
+                } else {
+                    System.out.println("\n===== Student List =====");
+                    for (Student s : students) {
+                        System.out.println(s);
+                    }
+                }
+
+                break;
+
+            case 3:
+
+                System.out.print("Enter Student ID: ");
+                int searchId = sc.nextInt();
+
+                Student foundStudent = service.getStudentById(searchId);
+
+                if (foundStudent != null) {
+                    System.out.println("\n===== Student Details =====");
+                    System.out.println(foundStudent);
+                } else {
+                    System.out.println("Student not found.");
+                }
+
+                break;
+
+            case 4:
+
+                System.out.print("Enter Student ID to Update: ");
+                int updateId = sc.nextInt();
+                sc.nextLine();
+
+                Student existingStudent = service.getStudentById(updateId);
+
+                if (existingStudent == null) {
+
+                    System.out.println("Student not found.");
+
+                } else {
+
+                    System.out.print("Enter New Name: ");
+                    String newName = sc.nextLine();
+
+                    System.out.print("Enter New Age: ");
+                    int newAge = sc.nextInt();
+                    sc.nextLine();
+
+                    System.out.print("Enter New Email: ");
+                    String newEmail = sc.nextLine();
+
+                    System.out.print("Enter New City: ");
+                    String newCity = sc.nextLine();
+
+                    Student updatedStudent = new Student(updateId, newName, newAge, newEmail, newCity);
+
+                    if (service.updateStudent(updatedStudent)) {
+                        System.out.println("Student Updated Successfully.");
+                    } else {
+                        System.out.println("Failed to Update Student.");
+                    }
+                }
+
+                break;
+
+            case 5:
+            	System.out.println("Enter Student Id:");
+            	int idVal=sc.nextInt();
+            	sc.nextLine();
+            	
+            	Student deleteStudent=service.getStudentById(idVal);
+            	 if (deleteStudent == null) {
+
+            	        System.out.println("Student not found.");
+
+            	    }else {
+            	    	   System.out.println("\nStudent Details:");
+            	           System.out.println(deleteStudent);
+            	           
+            	           System.out.print("\nAre you sure you want to delete? (Y/N): ");
+            	           String choiceDelete = sc.nextLine();
+            	           
+            	           if (choiceDelete.equalsIgnoreCase("Y")) {
+
+                               boolean deleted = service.deleteStudent(idVal);
+
+                               if (deleted) {
+                                   System.out.println("Student Deleted Successfully.");
+                               } else {
+                                   System.out.println("Failed to Delete Student.");
+                               }
+
+                           }else {
+                        	   
+
+                                   System.out.println("Delete Operation Cancelled.");
+
+                               
+                           }
+            	    }
+            	
+            	
+            	
+                // We will implement this next.
+
+                break;
+
+            case 6:
+
+                System.out.println("Thank You!");
+                sc.close();
+                System.exit(0);
+
+                break;
+
+            default:
+
+                System.out.println("Invalid Choice!");
+
+            }
+        }
+    }
 }

@@ -9,4 +9,10 @@ public interface StudentDao {
 	
 	Student getStudentById(int id);
 	
+	Student updateStudent(int id,String name,int age,String email,String city);
+
+	boolean updateStudent(Student student);
+	
+	boolean deleteStudent(int id);
+	
 }

@@ -11,5 +11,6 @@ public interface StudentService {
 	
 	Student getStudentById(int id);
 	
-	
+	boolean updateStudent(Student updatedStudent);
+	boolean deleteStudent(int id);
 }
